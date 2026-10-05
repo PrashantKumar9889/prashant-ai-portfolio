@@ -1,0 +1,55 @@
+{
+    "projects": [
+        {
+            "title": "Nadi-9 Evidence-Grounded Translator",
+            "description": "An evidence-grounded AI system that learns a fictional dialect from limited and conflicting evidence and produces subtitles without unsupported claims.",
+            "tech": [
+                "Python",
+                "RAG",
+                "Vector Search",
+                "LLM",
+                "AI Agents"
+            ],
+            "github": "https://github.com/PrashantKumar9889/nadi9-evidence-agent",
+            "demo": ""
+        },
+        {
+            "title": "YouTube Q&A Chatbot",
+            "description": "A RAG-based chatbot that processes YouTube transcripts and answers questions using semantic retrieval and large language models.",
+            "tech": [
+                "Python",
+                "RAG",
+                "Embeddings",
+                "Streamlit",
+                "LLM"
+            ],
+            "github": "",
+            "demo": "https://youtube-qna-chatbotgit.streamlit.app/"
+        },
+        {
+            "title": "PDF Q&A Chatbot",
+            "description": "A document question-answering application that allows users to upload PDFs and ask questions using a retrieval-augmented generation pipeline.",
+            "tech": [
+                "Python",
+                "LangChain",
+                "RAG",
+                "Vector Store",
+                "Gemini"
+            ],
+            "github": "https://github.com/PrashantKumar9889/PDF-QnA-Chatbot",
+            "demo": ""
+        },
+        {
+            "title": "Personal AI Assistant",
+            "description": "An AI assistant designed to answer questions about my professional profile, projects, technical skills and AI engineering experience.",
+            "tech": [
+                "FastAPI",
+                "RAG",
+                "LLM",
+                "Vector Database"
+            ],
+            "github": "",
+            "demo": ""
+        }
+    ]
+}
