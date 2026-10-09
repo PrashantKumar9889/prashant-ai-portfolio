@@ -41,3 +41,37 @@ app.include_router(
     profile_router,
     prefix="/api"
 )
+
+
+#Code for AI Chatbot API endpoint
+
+from pydantic import BaseModel, Field
+from fastapi import HTTPException
+
+from backend.services.llm_service import generate_answer
+
+
+class ChatRequest(BaseModel):
+    question: str = Field(min_length=1, max_length=2000)
+
+
+class ChatResponse(BaseModel):
+    question: str
+    answer: str
+
+
+@app.post("/api/chat", response_model=ChatResponse)
+def chat(request: ChatRequest):
+    try:
+        answer = generate_answer(request.question.strip())
+
+        return ChatResponse(
+            question=request.question.strip(),
+            answer=answer,
+        )
+
+    except Exception:
+        raise HTTPException(
+            status_code=502,
+            detail="The AI service is temporarily unavailable. Please try again.",
+        )
