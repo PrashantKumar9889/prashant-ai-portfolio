@@ -1,4 +1,6 @@
 import streamlit as st
+from backend.api_client import get_profile
+from backend.routes import profile
 
 # --------------------------------------------------
 # PAGE CONFIG
@@ -77,21 +79,15 @@ st.markdown(
 col1, col2 = st.columns([3, 1])
 
 with col1:
+    profile = get_profile()
 
-    st.markdown("# Prashant Kumar")
+    st.markdown(f"# {profile['name']}")
 
     st.markdown(
-        "### AI Engineer | GenAI | RAG | LLM Applications"
+        f"### {profile['title']}"
     )
 
-    st.write(
-        """
-        I build AI-powered applications using Python, RAG, LLMs,
-        FastAPI and modern AI engineering techniques.
-        This portfolio showcases my projects, technical work,
-        experiments and AI engineering journey.
-        """
-    )
+    st.write(profile['description'])
 
 with col2:
 

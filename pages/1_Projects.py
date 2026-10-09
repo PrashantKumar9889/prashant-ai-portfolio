@@ -1,5 +1,6 @@
 import json
 import streamlit as st
+from backend.api_client import get_projects
 
 
 # --------------------------------------------------
@@ -17,9 +18,8 @@ st.set_page_config(
 # LOAD PROJECTS
 # --------------------------------------------------
 
-with open("data/projects.json", "r", encoding="utf-8") as file:
-    projects_data = json.load(file)
 
+projects_data = get_projects()
 projects = projects_data["projects"]
 
 
