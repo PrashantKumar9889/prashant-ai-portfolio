@@ -1,0 +1,71 @@
+name: Deploy Prashant AI Portfolio
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v4
+
+      - name: Deploy application files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          APP_DIR="/home/ai-server/Desktop/Host/BamBam/prashant-ai-portfolio"
+
+          test -d "$APP_DIR/.venv"
+          test -f "$APP_DIR/.env"
+
+          rsync -a \
+            --exclude='.git/' \
+            --exclude='.venv/' \
+            --exclude='.env' \
+            --exclude='data/processed/chroma_db/' \
+            --exclude='__pycache__/' \
+            --exclude='*.pyc' \
+            "$GITHUB_WORKSPACE/" "$APP_DIR/"
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          APP_DIR="/home/ai-server/Desktop/Host/BamBam/prashant-ai-portfolio"
+          cd "$APP_DIR"
+
+          if [ -f requirements.txt ]; then
+            .venv/bin/python -m pip install -r requirements.txt
+          fi
+
+      - name: Restart FastAPI and Streamlit
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          sudo -n /usr/bin/systemctl restart prashant.service
+          sudo -n /usr/bin/systemctl restart prashant-web.service
+
+      - name: Verify deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test "$(sudo -n /usr/bin/systemctl is-active prashant.service)" = "active"
+          test "$(sudo -n /usr/bin/systemctl is-active prashant-web.service)" = "active"
+
+          echo "Deployment successful."
