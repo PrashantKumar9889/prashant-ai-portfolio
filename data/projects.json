@@ -1,17 +1,16 @@
 {
     "projects": [
         {
-            "title": "Nadi-9 Evidence-Grounded Translator",
-            "description": "An evidence-grounded AI system that learns a fictional dialect from limited and conflicting evidence and produces subtitles without unsupported claims.",
+            "title": "Personal AI Assistant",
+            "description": "An AI assistant designed to answer questions about my professional profile, projects, technical skills and AI engineering experience.",
             "tech": [
-                "Python",
+                "FastAPI",
                 "RAG",
-                "Vector Search",
                 "LLM",
-                "AI Agents"
+                "Vector Database"
             ],
-            "github": "https://github.com/PrashantKumar9889/nadi9-evidence-agent",
-            "demo": ""
+            "github": "https://github.com/PrashantKumar9889/prashant-ai-portfolio.git",
+            "demo": "https://prashant.aiwazir.com/"
         },
         {
             "title": "YouTube Q&A Chatbot",
@@ -23,8 +22,8 @@
                 "Streamlit",
                 "LLM"
             ],
-            "github": "",
-            "demo": "https://youtube-qna-chatbotgit.streamlit.app/"
+            "github": "https://github.com/PrashantKumar9889/YouTube-QnA-Chatbot",
+            "demo": "https://youtube-qna-chatbot.streamlit.app/"
         },
         {
             "title": "PDF Q&A Chatbot",
@@ -38,17 +37,18 @@
             ],
             "github": "https://github.com/PrashantKumar9889/PDF-QnA-Chatbot",
             "demo": ""
-        },
+        },    
         {
-            "title": "Personal AI Assistant",
-            "description": "An AI assistant designed to answer questions about my professional profile, projects, technical skills and AI engineering experience.",
+            "title": "Nadi-9 Evidence-Grounded Translator",
+            "description": "An evidence-grounded AI system that learns a fictional dialect from limited and conflicting evidence and produces subtitles without unsupported claims.",
             "tech": [
-                "FastAPI",
+                "Python",
                 "RAG",
+                "Vector Search",
                 "LLM",
-                "Vector Database"
+                "AI Agents"
             ],
-            "github": "",
+            "github": "https://github.com/PrashantKumar9889/nadi9-evidence-agent",
             "demo": ""
         }
     ]

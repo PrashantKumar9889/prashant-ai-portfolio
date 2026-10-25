@@ -118,6 +118,41 @@ for index, skill in enumerate(skills):
 
 
 # --------------------------------------------------
+# EXPERIENCE
+# --------------------------------------------------
+
+st.divider()
+
+st.subheader("Experience")
+
+with st.container(border=True):
+    st.markdown("### Delphi Consulting Middle East")
+    st.caption("Dubai, UAE · Remote Internship · May 2025 – November 2025")
+
+    st.markdown("**Data Functional Associate & Product Ownership**")
+
+    st.write(
+        "Supported enterprise GenAI and healthcare data projects, including "
+        "the DP World Genie Workspace Chatbot and M42 RCM Data Migration "
+        "from Databricks to Microsoft Fabric."
+    )
+
+    st.markdown(
+        """
+        **Key Areas**
+        - Generative AI, RAG & Text-to-SQL
+        - Functional Requirements & UAT
+        - Data Quality & Migration Validation
+        """
+    )
+
+    if st.button("View Full Experience →", key="home_view_experience"):
+        st.session_state["selected_page"] = "Experience"
+        st.rerun()
+
+
+
+# --------------------------------------------------
 # FEATURED PROJECTS
 # --------------------------------------------------
 
@@ -189,15 +224,6 @@ for i in range(0, len(projects), 2):
                     )
 
                     
-# --------------------------------------------------
-# EXPERIENCE
-# --------------------------------------------------
-
-st.divider()
-
-st.subheader("Experience")
-st.write("Experience details coming soon.")
-
 
 # --------------------------------------------------
 # QUICK LINKS
