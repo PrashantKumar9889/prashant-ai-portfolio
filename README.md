@@ -96,6 +96,7 @@ The frontend communicates with the deployed FastAPI backend through HTTP request
 
 * Streamlit Community Cloud
 * Render
+* Self Host
 
 ---
 
@@ -127,10 +128,9 @@ Portfolio Website/
 │
 ├── pages/
 │   ├── home.py
-│   ├── 1_Projects.py
-│   ├── skills.py
-│   ├── experience.py
 │   ├── chatbot.py
+│   ├── experience.py
+│   ├── 1_Projects.py
 │   └── contact.py
 │
 └── assets/

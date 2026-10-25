@@ -1,6 +1,7 @@
+import json
+
 import streamlit as st
 from backend.api_client import get_profile
-from backend.routes import profile
 
 # --------------------------------------------------
 # PAGE CONFIG
@@ -100,8 +101,6 @@ with col2:
 # CORE SKILLS
 # --------------------------------------------------
 
-import json
-
 st.divider()
 
 st.subheader("Core AI Engineering Skills")
@@ -121,8 +120,6 @@ for index, skill in enumerate(skills):
 # --------------------------------------------------
 # FEATURED PROJECTS
 # --------------------------------------------------
-
-import json
 
 st.divider()
 
@@ -192,6 +189,16 @@ for i in range(0, len(projects), 2):
                     )
 
                     
+# --------------------------------------------------
+# EXPERIENCE
+# --------------------------------------------------
+
+st.divider()
+
+st.subheader("Experience")
+st.write("Experience details coming soon.")
+
+
 # --------------------------------------------------
 # QUICK LINKS
 # --------------------------------------------------

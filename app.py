@@ -118,16 +118,10 @@ home = st.Page(
     icon="🏠",
 )
 
-projects = st.Page(
-    "pages/1_Projects.py",
-    title="Projects",
-    icon="💻",
-)
-
-skills = st.Page(
-    "pages/skills.py",
-    title="Skills",
-    icon="🧠",
+chatbot = st.Page(
+    "pages/chatbot.py",
+    title="AI Chat",
+    icon="🤖",
 )
 
 experience = st.Page(
@@ -136,10 +130,10 @@ experience = st.Page(
     icon="💼",
 )
 
-chatbot = st.Page(
-    "pages/chatbot.py",
-    title="AI Chat",
-    icon="🤖",
+projects = st.Page(
+    "pages/1_Projects.py",
+    title="Projects",
+    icon="💻",
 )
 
 contact = st.Page(
@@ -156,10 +150,9 @@ contact = st.Page(
 pg = st.navigation(
     [
         home,
-        projects,
-        skills,
-        experience,
         chatbot,
+        experience,
+        projects,
         contact,
     ],
     position="hidden",
@@ -176,9 +169,7 @@ st.markdown(
 )
 
 
-col1, col2, col3, col4, col5, col6 = st.columns(
-    [1, 1, 1, 1, 1, 1]
-)
+col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1])
 
 
 with col1:
@@ -191,37 +182,26 @@ with col1:
 
 with col2:
     if st.button(
-        "💻 Projects",
+        "🤖 AI Chat",
         use_container_width=True,
     ):
-        st.switch_page(projects)
-
+        st.switch_page(chatbot)
 
 with col3:
-    if st.button(
-        "🧠 Skills",
-        use_container_width=True,
-    ):
-        st.switch_page(skills)
-
-
-with col4:
     if st.button(
         "💼 Experience",
         use_container_width=True,
     ):
         st.switch_page(experience)
 
-
-with col5:
+with col4:
     if st.button(
-        "🤖 AI Chat",
+        "💻 Projects",
         use_container_width=True,
     ):
-        st.switch_page(chatbot)
+        st.switch_page(projects)
 
-
-with col6:
+with col5:
     if st.button(
         "📬 Contact",
         use_container_width=True,
