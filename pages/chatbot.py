@@ -26,7 +26,8 @@ if prompt := st.chat_input("Ask me about my projects or experience..."):
     with st.chat_message("assistant"):
         with st.spinner("Searching my portfolio and generating an answer..."):
             try:
-                answer = send_chat_message(prompt)
+                history = st.session_state.chat_messages[:-1][-10:]
+                answer = send_chat_message(prompt, history)
                 st.markdown(answer)
 
                 st.session_state.chat_messages.append(

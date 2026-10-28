@@ -1,8 +1,12 @@
-from fastapi import FastAPI
+from typing import Literal
+
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, Field
 
 from backend.routes.projects import router as projects_router
 from backend.routes.skills import router as skills_router
 from backend.routes.profile import router as profile_router
+from backend.services.llm_service import generate_answer
 
 
 app = FastAPI(
@@ -45,14 +49,14 @@ app.include_router(
 
 #Code for AI Chatbot API endpoint
 
-from pydantic import BaseModel, Field
-from fastapi import HTTPException
-
-from backend.services.llm_service import generate_answer
+class ChatMessage(BaseModel):
+    role: Literal["user", "assistant"]
+    content: str = Field(min_length=1, max_length=2000)
 
 
 class ChatRequest(BaseModel):
     question: str = Field(min_length=1, max_length=2000)
+    history: list[ChatMessage] = Field(default_factory=list, max_length=10)
 
 
 class ChatResponse(BaseModel):
@@ -63,7 +67,10 @@ class ChatResponse(BaseModel):
 @app.post("/api/chat", response_model=ChatResponse)
 def chat(request: ChatRequest):
     try:
-        answer = generate_answer(request.question.strip())
+        answer = generate_answer(
+            request.question.strip(),
+            history=[message.model_dump() for message in request.history],
+        )
 
         return ChatResponse(
             question=request.question.strip(),

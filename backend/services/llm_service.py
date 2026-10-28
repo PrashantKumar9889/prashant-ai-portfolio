@@ -14,7 +14,11 @@ OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "openrouter/free")
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 
-def generate_answer(question: str, top_k: int = 4) -> str:
+def generate_answer(
+    question: str,
+    top_k: int = 4,
+    history: list[dict[str, str]] | None = None,
+) -> str:
     """Generate an evidence-grounded answer using OpenRouter and RAG."""
 
     if not question.strip():
@@ -26,7 +30,16 @@ def generate_answer(question: str, top_k: int = 4) -> str:
         )
 
     # Retrieve relevant evidence from your existing ChromaDB.
-    results = search_knowledge_base(question, top_k=top_k)
+    history = (history or [])[-10:]
+    previous_user_messages = [
+        message["content"]
+        for message in history
+        if message["role"] == "user"
+    ]
+    retrieval_query = "\n".join(
+        [*previous_user_messages, question]
+    )
+    results = search_knowledge_base(retrieval_query, top_k=top_k)
 
     if not results:
         return "I couldn't find relevant information in my portfolio knowledge base."
@@ -56,6 +69,18 @@ Distinguish internship experience from full-time employment.
 Answer naturally, professionally, and concisely.
 """
 
+    messages = [
+        {"role": "system", "content": system_prompt},
+        *history,
+        {
+            "role": "user",
+            "content": (
+                f"Portfolio evidence:\n\n{context}\n\n"
+                f"Question: {question}"
+            ),
+        },
+    ]
+
     response = requests.post(
         OPENROUTER_URL,
         headers={
@@ -65,16 +90,7 @@ Answer naturally, professionally, and concisely.
         },
         json={
             "model": OPENROUTER_MODEL,
-            "messages": [
-                {"role": "system", "content": system_prompt},
-                {
-                    "role": "user",
-                    "content": (
-                        f"Portfolio evidence:\n\n{context}\n\n"
-                        f"Question: {question}"
-                    ),
-                },
-            ],
+            "messages": messages,
             "temperature": 0.2,
             "max_tokens": 600,
         },

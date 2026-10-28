@@ -35,10 +35,13 @@ def get_profile():
     return response.json()
 
 
-def send_chat_message(question: str) -> str:
+def send_chat_message(
+    question: str,
+    history: list[dict[str, str]] | None = None,
+) -> str:
     response = requests.post(
         f"{API_BASE_URL}/api/chat",
-        json={"question": question},
+        json={"question": question, "history": history or []},
         timeout=90,
     )
     response.raise_for_status()
