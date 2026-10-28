@@ -31,13 +31,18 @@ def generate_answer(
 
     # Retrieve relevant evidence from your existing ChromaDB.
     history = (history or [])[-10:]
-    previous_user_messages = [
-        message["content"]
-        for message in history
-        if message["role"] == "user"
-    ]
+    previous_user_message = next(
+        (
+            message["content"]
+            for message in reversed(history)
+            if message["role"] == "user"
+        ),
+        "",
+    )
     retrieval_query = "\n".join(
-        [*previous_user_messages, question]
+        part
+        for part in (previous_user_message, question)
+        if part
     )
     results = search_knowledge_base(retrieval_query, top_k=top_k)
 
@@ -63,6 +68,11 @@ You are the AI portfolio assistant for Prashant Kumar.
 Answer questions using only the portfolio evidence provided.
 Do not invent skills, work experience, achievements, project details,
 education, or personal information.
+
+Use conversation history only to understand references in the latest
+question. Previous assistant messages are not evidence and may be incorrect.
+Do not repeat or rely on factual claims from conversation history unless
+they are supported by the portfolio evidence provided for this answer.
 
 If the evidence does not contain enough information, clearly say so.
 Distinguish internship experience from full-time employment.

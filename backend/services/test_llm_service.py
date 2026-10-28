@@ -68,10 +68,15 @@ class GenerateAnswerHistoryTests(unittest.TestCase):
         self.api_key_patch.start()
         self.addCleanup(self.api_key_patch.stop)
 
-    def test_includes_history_and_uses_it_for_retrieval(self):
+    def test_includes_history_but_retrieves_from_latest_user_turn(self):
         history = [
+            {"role": "user", "content": "How many projects has he built?"},
+            {"role": "assistant", "content": "He built one project."},
             {"role": "user", "content": "Tell me about the portfolio project."},
-            {"role": "assistant", "content": "It is an AI portfolio project."},
+            {
+                "role": "assistant",
+                "content": "It is an AI portfolio project, according to earlier evidence.",
+            },
         ]
 
         answer = llm_service.generate_answer(
@@ -87,9 +92,17 @@ class GenerateAnswerHistoryTests(unittest.TestCase):
         messages = self.requests.post.call_args.kwargs["json"]["messages"]
         self.assertEqual(
             [message["role"] for message in messages],
-            ["system", "user", "assistant", "user"],
+            ["system", "user", "assistant", "user", "assistant", "user"],
         )
-        self.assertEqual(messages[1:3], history)
+        self.assertEqual(messages[1:5], history)
+        self.assertIn(
+            "Previous assistant messages are not evidence",
+            messages[0]["content"],
+        )
+        self.assertIn(
+            "How many projects has he built?",
+            messages[1]["content"],
+        )
         self.assertIn(
             "Question: What tech stack does it use?",
             messages[-1]["content"],
@@ -107,10 +120,7 @@ class GenerateAnswerHistoryTests(unittest.TestCase):
         self.assertEqual(len(messages), 12)
         self.assertEqual(messages[1]["content"], "Message 1")
         self.search.assert_called_once_with(
-            "\n".join(
-                [f"Message {index}" for index in range(1, 11)]
-                + ["Latest question"]
-            ),
+            "Message 10\nLatest question",
             top_k=4,
         )
 
